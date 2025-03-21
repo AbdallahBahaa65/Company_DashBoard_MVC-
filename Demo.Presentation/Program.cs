@@ -1,3 +1,9 @@
+using Demo.BusinessLogic.Services;
+using Demo.DataAccess.Contexts;
+using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
+using Demo.DataAccess.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
+
 namespace Demo.Presentation
 {
     public class Program
@@ -6,29 +12,42 @@ namespace Demo.Presentation
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+
+            #region USe MVC Servece In Container 
+
             builder.Services.AddControllersWithViews();
+            //builder.Services.AddScoped<ApplicationDbContext>(); // 2.Register to Service In DI Container 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
+            });
+
+            builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
+            builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+
+            #endregion
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+
+            #region Confige  HTTP Request MiddleWares 
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"); 
+            #endregion
 
             app.Run();
         }
