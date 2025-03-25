@@ -16,11 +16,11 @@ namespace Demo.BusinessLogic.Services
         }
 
 
-        public DepartmentDetailsDto GetDetails(int id)
+        public DepartmentDetailsDto? GetDetails(int id)
         {
             var Dep = departmentRepo.GetById(id);
 
-            return Dep is null ? null : Dep.ToDepartmentDetailsDto();
+            return Dep?.ToDepartmentDetailsDto();
         }
 
 
@@ -34,7 +34,6 @@ namespace Demo.BusinessLogic.Services
         public int UpdateDepartment(UpdateDepartmentDto departmentDto)
         {
             return departmentRepo.Update(departmentDto.ToEntity());
-
         }
         public bool DeleteDepartment(int id)
         {

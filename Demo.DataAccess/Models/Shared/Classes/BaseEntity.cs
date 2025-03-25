@@ -1,10 +1,10 @@
-﻿namespace Demo.DataAccess.Models
+﻿namespace Demo.DataAccess.Models.Shared.Classes
 {
     public class BaseEntity
     {
         public int Id { get; set; } // PK 
-        public int CreatedBy { get;  set; } //User Id    
-        
+        public int CreatedBy { get; set; } //User Id    
+
         public int LastModifiedBy { get; set; } // User Id 
 
         public DateTime? CreatedOn { get; set; }

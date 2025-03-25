@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Contexts;
+using Demo.DataAccess.Models.DepartmentModels;
 using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.DataAccess.Repositories.Class.DepartmentRepositry
