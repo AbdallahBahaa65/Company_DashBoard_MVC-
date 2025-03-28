@@ -1,6 +1,4 @@
-﻿
-using System.Reflection;
-
+﻿using System.Reflection;
 namespace Demo.DataAccess.Contexts
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) /*1*/: DbContext(options)/*2*/
@@ -8,6 +6,7 @@ namespace Demo.DataAccess.Contexts
                                                             //2.Primary Constractor Here Represent Base(Option )
     {
         public DbSet<Department> Departments  { get; set; }
+        public DbSet<Employee> Employees  { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

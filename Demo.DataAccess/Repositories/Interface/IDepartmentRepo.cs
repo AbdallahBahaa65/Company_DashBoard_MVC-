@@ -1,11 +1,9 @@
-﻿namespace Demo.DataAccess.Repositories.Interface
+﻿using Demo.DataAccess.Models.DepartmentModels;
+
+namespace Demo.DataAccess.Repositories.Interface
 {
-    public interface IDepartmentRepo
+    public interface IDepartmentRepo:IGenaricRepository<Department>
     {
-        int Add(Department department);
-        IEnumerable<Department> GetAll(bool WithTracking = false);
-        Department? GetById(int Id);
-        int Remove(Department department);
-        int Update(Department department);
+       
     }
 }

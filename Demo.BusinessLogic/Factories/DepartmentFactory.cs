@@ -5,7 +5,7 @@ using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.BusinessLogic.DataTransferObjects;
-using Demo.DataAccess.Models;
+using Demo.DataAccess.Models.DepartmentModels;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 
 namespace Demo.BusinessLogic.Factories

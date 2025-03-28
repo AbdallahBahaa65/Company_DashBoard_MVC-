@@ -1,8 +1,10 @@
-﻿namespace Demo.DataAccess.Data.Configurations
+﻿using Demo.DataAccess.Models.DepartmentModels;
+
+namespace Demo.DataAccess.Data.Configurations
 {
-    internal class DepartmentConfigrurations : IEntityTypeConfiguration<Department>
+    internal class DepartmentConfigrurations :BaseEntityConfigration<Department>, IEntityTypeConfiguration<Department>
     {
-        public void Configure(EntityTypeBuilder<Department> builder)
+        public  new void Configure(EntityTypeBuilder<Department> builder)
         {
             builder.Property(D => D.Id)
                    .UseIdentityColumn(10, 10);
@@ -16,12 +18,10 @@
                 .HasColumnType("Varchar(20)")
                 .IsRequired();
 
+            base.Configure(builder);
 
-            builder.Property(x => x.CreatedOn)
-                .HasDefaultValueSql("GetDate()"); 
-            
-            builder.Property(x => x.LastModifiedOn)
-                .HasComputedColumnSql("GetDate()");
+
+           
 
         }
     }

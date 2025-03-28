@@ -1,15 +1,197 @@
-﻿using Demo.BusinessLogic.Services;
+﻿using Demo.BusinessLogic.DataTransferObjects;
+using Demo.BusinessLogic.Factories;
+using Demo.BusinessLogic.Services;
+using Demo.Presentation.ViewModels.DepartmentViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
-    public class DepartmentController(IDepartmentService departmentService) : Controller
+    public class DepartmentController(IDepartmentService departmentService, IWebHostEnvironment _environment, ILogger<DepartmentController> _logger) : Controller
     {
         public IActionResult Index()
         {
-            var department = departmentService.GetDetails(10);
+            var department = departmentService.GetAll();
+
+            return View(department);
+
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
 
             return View();
         }
+
+
+
+        [HttpPost]
+        public IActionResult Create(CreateDepartmentDto departmentDto)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    int Result = departmentService.AddDepartment(departmentDto);
+
+                    if (Result > 0)
+                        return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if (_environment.IsDevelopment())
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+
+                    }
+                    else
+                    {
+                        _logger.LogError(ex.Message);
+                    }
+                }
+            }
+
+            return View(departmentDto);
+        }
+
+
+
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+
+            var department = departmentService.GetDetails(id.Value);
+
+            if (department is null) return NotFound();
+
+            return View(department);
+
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+
+            var Result = departmentService.GetDetails(id.Value);
+
+            if (Result is null) return NotFound();
+
+            var departmenViewModel = new DepartmentEditeViewModel()
+            {
+
+                Code = Result.Code,
+                Name = Result.Name,
+                Description = Result.Description,
+                DateOfCreate = Result.CreatedOn
+
+            };
+
+            return View(departmenViewModel);
+
+
+        }
+
+        //[HttpPost]
+        //public IActionResult Edit([FromRoute] int? id, DepartmentEditeViewModel viewModel)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+
+        //            var updateDepartment = new UpdateDepartmentDto()
+        //            {
+        //                Id = id.Value,
+        //                Code = viewModel.Code,
+        //                Name = viewModel.Name,
+        //                Description = viewModel?.Description ?? " ",
+        //                DateOfCreation = viewModel.DateOfCreate
+        //            };
+
+        //            var Result = departmentService.UpdateDepartment(updateDepartment);
+
+        //            if (Result > 0) return RedirectToAction(nameof(Index));
+        //            else ModelState.AddModelError(string.Empty, "Department Not Updated !!!!!!!!!!!!!!!!!!!!!!");
+
+
+
+
+
+
+
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            if (_environment.IsDevelopment())
+        //            {
+        //                ModelState.AddModelError(string.Empty, ex.Message);
+
+        //            }
+        //            else
+        //            {
+        //                _logger.LogError(ex.Message);
+        //                return View("ErrorView", ex.Message);
+        //            }
+        //        }
+        //    }
+        //    return View(viewModel);
+        //}
+
+
+        //public IActionResult Delete([FromRoute] int? id)
+        //{
+
+        //    if (!id.HasValue) return BadRequest();
+        //    var department = departmentService.GetDetails(id.Value);
+        //    if (department is null) return NotFound();
+
+        //    return View(department);
+        //}
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+
+            if (id == 0) return BadRequest();
+
+            try
+            {
+
+                bool flag = departmentService.DeleteDepartment(id);
+                if (flag)
+                    return RedirectToAction(nameof(Index));
+
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Department Not Deleted");
+                    return RedirectToAction(nameof(Delete), new { id });
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return RedirectToAction(nameof(Delete), new { id });
+
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return View("ErrorView",ex);
+                        
+                }
+            }
+
+        }
     }
+
+
 }
+
