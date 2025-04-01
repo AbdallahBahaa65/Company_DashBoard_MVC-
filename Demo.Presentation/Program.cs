@@ -1,4 +1,5 @@
-using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Contexts;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 using Demo.DataAccess.Repositories.Interface;

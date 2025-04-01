@@ -1,6 +1,6 @@
-﻿namespace Demo.BusinessLogic.DataTransferObjects
+﻿namespace Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS
 {
-    public class DepartmentDetailsDto 
+    public class DepartmentDetailsDto
     {
         public int Id { get; set; } // PK 
         public int CreatedBy { get; set; } //User Id    

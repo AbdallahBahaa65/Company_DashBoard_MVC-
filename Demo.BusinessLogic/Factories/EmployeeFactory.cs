@@ -16,6 +16,7 @@ namespace Demo.BusinessLogic.Factories
             IsActive = D.IsActive,
             Gender = D.Gender,
             EmployeeType = D.EmployeeType
+            
         };
 
 
@@ -28,7 +29,9 @@ namespace Demo.BusinessLogic.Factories
             Salary = Dep.Salary,
             IsActive = Dep.IsActive,
             Gender = Dep.Gender,
-            EmployeeType = Dep.EmployeeType
+            EmployeeType = Dep.EmployeeType,
+           
+            
         };
 
 
@@ -42,8 +45,8 @@ namespace Demo.BusinessLogic.Factories
             Email = Dep.Email,
             Salary = Dep.Salary,
             IsActive = Dep.IsActive,
-            Gender = Dep.Gender,
-            EmployeeType = Dep.EmployeeType
+            Gender = Dep.Gender.ToString(),
+            EmployeeType = Dep.EmployeeType.ToString()
         };
 
 
@@ -52,15 +55,15 @@ namespace Demo.BusinessLogic.Factories
         {
             //Id = Dep.DeptId,
             Name = Dep.Name,
-            HiringDate = Dep.HiringDate,
             Age = Dep.Age,
             Email = Dep.Email,
             Salary = Dep.Salary,
             IsActive = Dep.IsActive,
             Gender = Dep.Gender,
             EmployeeType = Dep.EmployeeType,
-            CreatedBy = Dep.CreatedBy,
-            LastModifiedBy = Dep.LastModifiedBy
+            CreatedBy = 1,
+            LastModifiedBy = 1,
+            HiringDate = new DateTime(Dep.HiringDate.Year, Dep.HiringDate.Month, Dep.HiringDate.Day)
 
 
         };
@@ -76,8 +79,8 @@ namespace Demo.BusinessLogic.Factories
             Age = Dep.Age,
             Email = Dep.Email,
             Salary = Dep.Salary,
-            CreatedBy = Dep.CreatedBy,
-            LastModifiedBy = Dep.LastModifiedBy
+            CreatedBy = 1,
+            LastModifiedBy =1
 
 
         };
