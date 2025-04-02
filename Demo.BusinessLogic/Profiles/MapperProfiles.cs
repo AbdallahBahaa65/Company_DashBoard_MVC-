@@ -20,8 +20,8 @@ namespace Demo.BusinessLogic.Profiles
             CreateMap<Employee, EmployeeDetailsDto>().ReverseMap()
                    .ForMember(D => D.Gender, Option => Option.MapFrom(S => S.Gender))
                       .ForMember(D => D.EmployeeType, Option => Option.MapFrom(S => S.EmployeeType))
-                      .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(new TimeOnly())));
-            
+            .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(new TimeOnly())));
+
             CreateMap<Employee,UpdateEmployeeDto>().ReverseMap()
                  .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(new TimeOnly())));
 
