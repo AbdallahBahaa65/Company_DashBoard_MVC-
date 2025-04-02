@@ -17,10 +17,10 @@ namespace Demo.BusinessLogic.Factories
         {
             return new DepartmentDto
             {
-                DeptId = D.Id,
+                DeptId= D.Id,
                 Name = D.Name,
-                Description = D.Description,
-                DateOfCreation = DateOnly.FromDateTime((DateTime)D.CreatedOn)
+             
+              
             };
         }
 

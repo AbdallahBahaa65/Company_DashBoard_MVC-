@@ -14,8 +14,8 @@ namespace Demo.BusinessLogic.Factories
             Email = D.Email,
             Salary = D.Salary,
             IsActive = D.IsActive,
-            Gender = D.Gender,
-            EmployeeType = D.EmployeeType
+            //Gender = D.Gender,
+            //EmployeeType = D.EmployeeType
             
         };
 
@@ -24,12 +24,12 @@ namespace Demo.BusinessLogic.Factories
         {
             //Id = Dep.DeptId,
             Name = Dep.Name,
-            Age = Dep.Age,
+            //Age = Dep.Age,
             Email = Dep.Email,
             Salary = Dep.Salary,
             IsActive = Dep.IsActive,
-            Gender = Dep.Gender,
-            EmployeeType = Dep.EmployeeType,
+            //Gender = Dep.Gender,
+            //EmployeeType = Dep.EmployeeType,
            
             
         };

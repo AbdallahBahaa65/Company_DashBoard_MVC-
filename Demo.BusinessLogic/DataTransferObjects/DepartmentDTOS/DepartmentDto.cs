@@ -4,18 +4,14 @@ namespace Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS
 {
     public class DepartmentDto
     {
-        public int Id { get; set; }
+        public int DeptId { get; set; }
         public string Name { get; set; } = null!;
-        public int? Age { get; set; }
-        [DataType(DataType.Currency)]
-        public decimal Salary { get; set; }
-        [Display(Name = "Is Active")]
-        public bool IsActive { get; set; }
-        [EmailAddress]
-        public string? Email { get; set; }
-        public string Gender { get; set; }
-        [Display(Name = "Employee Type")]
-        public string EmployeeType { get; set; }
+        public string Code { get; set; } = string.Empty;
+
+        public string? Description { get; set; } = string.Empty;
+
+        public DateOnly DateOfCreation { get; set; }
+
 
     }
 }

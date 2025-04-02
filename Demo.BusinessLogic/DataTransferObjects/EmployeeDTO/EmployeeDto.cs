@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Demo.DataAccess.Models.EmployeeModels.EmployeeEnums;
-using Demo.DataAccess.Models.Shared.Enums;
 
 namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
 {
