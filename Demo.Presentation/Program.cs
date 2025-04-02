@@ -1,3 +1,4 @@
+using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Contexts;
@@ -27,6 +28,9 @@ namespace Demo.Presentation
 
             builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
             builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+
+            //builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
+            builder.Services.AddAutoMapper(M=>M.AddProfile(new MapperProfiles()));
 
             #endregion
 
