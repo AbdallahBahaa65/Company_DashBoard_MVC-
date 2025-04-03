@@ -16,9 +16,9 @@ namespace Demo.DataAccess.Repositories.Class
         {
 
             if (WithTracking)
-                return dbContext.Set<T>().ToList();
+                return dbContext.Set<T>().Where<T>(E=>E.IsDeleted != true).ToList();
             else
-                return dbContext.Set<T>().AsNoTracking().ToList();
+                return dbContext.Set<T>().Where<T>(E => E.IsDeleted != true).AsNoTracking().ToList();
         }
         #endregion
 

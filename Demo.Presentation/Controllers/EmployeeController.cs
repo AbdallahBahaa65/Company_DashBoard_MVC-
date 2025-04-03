@@ -133,6 +133,46 @@ namespace Demo.Presentation.Controllers
 
 
             }
+        }
+            [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id==0   ) return BadRequest();
+
+
+           
+
+            try
+            {
+                var Deleted = employeeSerivces.DeleteEmplyee(id);
+                if (Deleted )
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Employee is not Deleted :)");
+                    return RedirectToAction(nameof(Delete),new {id});
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    return RedirectToAction(nameof(Index));
+
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return View("Error", ex);
+                }
+
+
+
+
+
+            }
 
 
         }
