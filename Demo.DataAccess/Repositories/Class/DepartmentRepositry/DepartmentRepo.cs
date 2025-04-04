@@ -50,6 +50,11 @@ namespace Demo.DataAccess.Repositories.Class.DepartmentRepositry
             _dbContext.Departments.Add(department);
             return _dbContext.SaveChanges();//Return N of Row Affected 
         }
+
+        public IEnumerable<Department> GetAll<TResult>(System.Linq.Expressions.Expression<Func<Department, TResult>> Selector)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #endregion
