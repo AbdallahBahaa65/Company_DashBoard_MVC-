@@ -5,6 +5,7 @@ using Demo.DataAccess.Contexts;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 using Demo.DataAccess.Repositories.Class.EmployeeRepository;
 using Demo.DataAccess.Repositories.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Presentation
@@ -18,7 +19,12 @@ namespace Demo.Presentation
 
             #region USe MVC Servece In Container 
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews( Options=>
+            {
+                Options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+
+            });
             //builder.Services.AddScoped<ApplicationDbContext>(); // 2.Register to Service In DI Container 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
