@@ -1,4 +1,5 @@
-﻿using Demo.DataAccess.Contexts;
+﻿using System.Linq.Expressions;
+using Demo.DataAccess.Contexts;
 using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.DataAccess.Repositories.Class
@@ -16,9 +17,9 @@ namespace Demo.DataAccess.Repositories.Class
         {
 
             if (WithTracking)
-                return dbContext.Set<T>().ToList();
+                return dbContext.Set<T>().Where<T>(E=>E.IsDeleted != true).ToList();
             else
-                return dbContext.Set<T>().AsNoTracking().ToList();
+                return dbContext.Set<T>().Where<T>(E => E.IsDeleted != true).AsNoTracking().ToList();
         }
         #endregion
 
@@ -45,6 +46,28 @@ namespace Demo.DataAccess.Repositories.Class
             dbContext.Set<T>().Add(Employee);
             return dbContext.SaveChanges();//Return N of Row Affected 
         }
+
+        public IEnumerable<T> GetAll<TResult>(Expression<Func<T, TResult>> Selector)
+        {
+            return (IEnumerable<T>)dbContext.Set<T>().Where(E=>E.IsDeleted!= true)
+                            .Select(Selector)
+                            .ToList();
+        }
+
+
+
+
+        //public IEnumerable<T> GetEnumrable()
+        //{
+        //    return dbContext.Set<T>();
+        //}
+
+        //public IQueryable<T> GetEQueryable()
+        //{
+        //    return dbContext.Set<T>();
+        //}
+
+
 
 
 

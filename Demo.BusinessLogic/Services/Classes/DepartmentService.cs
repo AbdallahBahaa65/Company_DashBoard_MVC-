@@ -1,9 +1,10 @@
-﻿using Demo.BusinessLogic.DataTransferObjects;
+﻿using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS;
 using Demo.BusinessLogic.Factories;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 using Demo.DataAccess.Repositories.Interface;
 
-namespace Demo.BusinessLogic.Services
+namespace Demo.BusinessLogic.Services.Classes
 {
     public class DepartmentService(IDepartmentRepo departmentRepo) : IDepartmentService
     {
@@ -50,7 +51,7 @@ namespace Demo.BusinessLogic.Services
 
     }
 }
-        
+
 
 
 

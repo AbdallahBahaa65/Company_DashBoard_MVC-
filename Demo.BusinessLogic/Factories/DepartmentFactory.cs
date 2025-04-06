@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS;
 using Demo.DataAccess.Models.DepartmentModels;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 
@@ -17,10 +17,10 @@ namespace Demo.BusinessLogic.Factories
         {
             return new DepartmentDto
             {
-                DeptId = D.Id,
+                DeptId= D.Id,
                 Name = D.Name,
-                Description = D.Description,
-                DateOfCreation = DateOnly.FromDateTime((DateTime)D.CreatedOn)
+             
+              
             };
         }
 
