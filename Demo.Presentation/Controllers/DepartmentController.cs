@@ -26,13 +26,23 @@ namespace Demo.Presentation.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(CreateDepartmentDto departmentDto)
+        public IActionResult Create(DepartmentEditeViewModel departmentEditeView)
         {
+
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var departmentDto = new CreateDepartmentDto()
+                    {
+                        Code = departmentEditeView.Code,
+                        Description = departmentEditeView.Description,
+                        Name = departmentEditeView.Name,
+                        DateOfCreation = departmentEditeView.DateOfCreation
+
+                    };
                     int Result = departmentService.AddDepartment(departmentDto);
 
                     if (Result > 0)
@@ -52,7 +62,7 @@ namespace Demo.Presentation.Controllers
                 }
             }
 
-            return View(departmentDto);
+            return View(departmentEditeView);
         }
 
 
@@ -86,7 +96,7 @@ namespace Demo.Presentation.Controllers
                 Code = Result.Code,
                 Name = Result.Name,
                 Description = Result.Description,
-                DateOfCreate = Result.CreatedOn
+                DateOfCreation = Result.CreatedOn
 
             };
 
@@ -184,8 +194,8 @@ namespace Demo.Presentation.Controllers
                 else
                 {
                     _logger.LogError(ex.Message);
-                    return View("ErrorView",ex);
-                        
+                    return View("ErrorView", ex);
+
                 }
             }
 

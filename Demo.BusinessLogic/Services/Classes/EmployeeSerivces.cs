@@ -24,7 +24,9 @@ namespace Demo.BusinessLogic.Services.Classes
             });
             //return mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(departmentList);
 
-            return (IEnumerable<EmployeeDto>)employees;
+             var employee= mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+                
+                return employee;
 
             #region Example On IEnumrable 
             //var Result = _employeeRepo.GetEnumrable()
