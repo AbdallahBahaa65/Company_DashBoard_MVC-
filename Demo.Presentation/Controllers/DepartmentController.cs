@@ -14,15 +14,15 @@ namespace Demo.Presentation.Controllers
             //ViewBag.Message= "Hallo From View Data";
 
 
-            ViewBag.Message = new DepartmentDto()
-            {
-                Name = "Test View Bag "
-            };
+            //ViewBag.Message = new DepartmentDto()
+            //{
+            //    Name = "Test View Bag "
+            //};
 
-            ViewData["Message"] = new DepartmentDto()
-            {
-                Name = "Test View Data "
-            };
+            //ViewData["Message"] = new DepartmentDto()
+            //{
+            //    Name = "Test View Data "
+            //};
 
 
 
@@ -61,9 +61,15 @@ namespace Demo.Presentation.Controllers
 
                     };
                     int Result = departmentService.AddDepartment(departmentDto);
-
+                    string Message;
                     if (Result > 0)
-                        return RedirectToAction(nameof(Index));
+                        Message = $"Department {departmentDto.Name} Created Successfully ";
+                    else 
+                        Message = $"Department {departmentDto.Name}  Not Created  ";
+
+
+                    TempData["Message"]=Message;
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
