@@ -35,10 +35,10 @@ namespace Demo.Presentation
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
             } , ServiceLifetime.Scoped);
 
-            builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
+            //builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
             builder.Services.AddTransient<IDepartmentService,DepartmentService>();
             //builder.Services.AddScoped<IDepartmentService,DepartmentService>();
-            builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+            //builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             builder.Services.AddScoped<IEmployeeSerivces,EmployeeSerivces>();
             builder.Services.AddScoped<IUniteOfWork,UniteOfWork>();
 
