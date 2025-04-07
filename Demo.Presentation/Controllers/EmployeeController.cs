@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
-    public class EmployeeController(IEmployeeSerivces employeeSerivces, ILogger<EmployeeController> _logger, IWebHostEnvironment _environment ) : Controller
+    public class EmployeeController(IEmployeeSerivces employeeSerivces, ILogger<EmployeeController> _logger, IWebHostEnvironment _environment,IDepartmentService departmentService ) : Controller
     {
         public IActionResult Index()
         {

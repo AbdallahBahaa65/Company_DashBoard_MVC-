@@ -32,10 +32,11 @@ namespace Demo.Presentation
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 options.UseLazyLoadingProxies();
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
-            });
+            } , ServiceLifetime.Scoped);
 
             builder.Services.AddScoped<IDepartmentRepo,DepartmentRepo>();
-            builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+            builder.Services.AddTransient<IDepartmentService,DepartmentService>();
+            //builder.Services.AddScoped<IDepartmentService,DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             builder.Services.AddScoped<IEmployeeSerivces,EmployeeSerivces>();
 
