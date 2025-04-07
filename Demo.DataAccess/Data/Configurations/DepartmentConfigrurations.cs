@@ -18,8 +18,16 @@ namespace Demo.DataAccess.Data.Configurations
                 .HasColumnType("Varchar(20)")
                 .IsRequired();
 
-            base.Configure(builder);
 
+
+            //Relation 1-M Between Employee and Department (Employee May Work In Department )
+
+            builder.HasMany(E => E.Employees)
+                   .WithOne(D => D.Department)
+                   .HasForeignKey(E => E.DepartmentId)
+                   .OnDelete(DeleteBehavior.SetNull);   
+
+            base.Configure(builder);
 
            
 
