@@ -100,11 +100,8 @@ namespace Demo.Presentation.Controllers
                 HiringDate = emp.HiringDate,
                 Name = emp.Name,
                 PhoneNumber = emp.PhoneNumber,
-                Salary = emp.Salary
-
-
-
-
+                Salary = emp.Salary,
+                DepartmentId = emp.DepartmentId
             };
             return View(employeeDto);
 

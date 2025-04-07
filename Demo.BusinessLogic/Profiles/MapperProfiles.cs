@@ -13,20 +13,25 @@ namespace Demo.BusinessLogic.Profiles
     {
         public MapperProfiles()
         {
-            CreateMap<Employee, EmployeeDto>().ReverseMap()
+            CreateMap<Employee, EmployeeDto>()
                       .ForMember(D => D.Gender, Option => Option.MapFrom(S => S.Gender))
-                      .ForMember(D => D.EmployeeType, Option => Option.MapFrom(S => S.EmployeeType));
-
-            CreateMap<Employee, EmployeeDetailsDto>().ReverseMap()
-                   .ForMember(D => D.Gender, Option => Option.MapFrom(S => S.Gender))
                       .ForMember(D => D.EmployeeType, Option => Option.MapFrom(S => S.EmployeeType))
-            .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(new TimeOnly())));
+                      .ForMember(D => D.Department, Option => Option.MapFrom(S => S.Department != null ? S.Department.Name : null)).ReverseMap();
 
-            CreateMap<Employee,UpdateEmployeeDto>().ReverseMap()
-                 .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(new TimeOnly())));
 
-             CreateMap<CreateEmploeeDto,Employee>().ReverseMap()
-                 .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => DateOnly.FromDateTime(S.HiringDate)));
+
+            CreateMap<Employee, EmployeeDetailsDto>()
+                      .ForMember(D => D.Gender, Option => Option.MapFrom(S => S.Gender))
+                      .ForMember(D => D.EmployeeType, Option => Option.MapFrom(S => S.EmployeeType))
+                      .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => DateOnly.FromDateTime(S.HiringDate)))
+                      .ForMember(D => D.Department, Option => Option.MapFrom(S => S.Department != null ? S.Department.Name : null)).ReverseMap();
+
+
+            CreateMap<UpdateEmployeeDto, Employee>()
+                 .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(TimeOnly.MinValue))).ReverseMap();
+
+            CreateMap<CreateEmploeeDto, Employee>()
+                .ForMember(D => D.HiringDate, Option => Option.MapFrom(S => S.HiringDate.ToDateTime(TimeOnly.MinValue))).ReverseMap();
 
         }
     }
