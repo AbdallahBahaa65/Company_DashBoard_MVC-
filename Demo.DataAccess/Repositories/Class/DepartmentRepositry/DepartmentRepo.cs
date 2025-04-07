@@ -1,4 +1,5 @@
-﻿using Demo.DataAccess.Contexts;
+﻿using System.Linq.Expressions;
+using Demo.DataAccess.Contexts;
 using Demo.DataAccess.Models.DepartmentModels;
 using Demo.DataAccess.Repositories.Interface;
 
@@ -55,6 +56,18 @@ namespace Demo.DataAccess.Repositories.Class.DepartmentRepositry
         {
             throw new NotImplementedException();
         }
+
+        IEnumerable<TResult> IGenaricRepository<Department>.GetAll<TResult>(Expression<Func<Department, TResult>> Selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Department> GetAll(Expression<Func<Department, bool>> Predic)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #endregion
 
         #endregion

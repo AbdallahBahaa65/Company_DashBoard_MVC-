@@ -4,7 +4,7 @@ using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.DataAccess.Repositories.Class
 {
-    public class GenaricRepository<T>(ApplicationDbContext dbContext) : IGenaricRepository<T> where T :BaseEntity
+    public class GenaricRepository<T>(ApplicationDbContext dbContext) : IGenaricRepository<T> where T : BaseEntity
     {
         #region CRUD Operations
 
@@ -17,7 +17,7 @@ namespace Demo.DataAccess.Repositories.Class
         {
 
             if (WithTracking)
-                return dbContext.Set<T>().Where<T>(E=>E.IsDeleted != true).ToList();
+                return dbContext.Set<T>().Where<T>(E => E.IsDeleted != true).ToList();
             else
                 return dbContext.Set<T>().Where<T>(E => E.IsDeleted != true).AsNoTracking().ToList();
         }
@@ -47,12 +47,22 @@ namespace Demo.DataAccess.Repositories.Class
             return dbContext.SaveChanges();//Return N of Row Affected 
         }
 
-        public IEnumerable<T> GetAll<TResult>(Expression<Func<T, TResult>> Selector)
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<T, TResult>> Selector)
         {
-            return (IEnumerable<T>)dbContext.Set<T>().Where(E=>E.IsDeleted!= true)
+            return dbContext.Set<T>()
+                             .Where(E => E.IsDeleted != true)
                             .Select(Selector)
                             .ToList();
         }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> Predic)
+        {
+            return dbContext.Set<T>()
+                  .Where(Predic)
+                  .ToList();
+        }
+
+       
 
 
 

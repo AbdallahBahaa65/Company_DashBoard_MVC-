@@ -12,21 +12,29 @@ namespace Demo.BusinessLogic.Services.Classes
 {
     public class EmployeeSerivces(IEmployeeRepo _employeeRepo, IMapper mapper) : IEmployeeSerivces
     {
-        public IEnumerable<EmployeeDto> GetAllEmployees()
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
 
 
-            var employees = _employeeRepo.GetAll(E=> new EmployeeDto()
+            var employees = _employeeRepo.GetAll(E => new EmployeeDto()
             {
                 Id = E.Id,
                 Name = E.Name,
-                Salary = E.Salary   
+                Salary = E.Salary
             });
-            //return mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(departmentList);
 
-             var employee= mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
-                
-                return employee;
+
+            IEnumerable<Employee> Employees;
+            if (string.IsNullOrWhiteSpace(EmployeeSearchName))
+                Employees = _employeeRepo.GetAll();
+            else
+                Employees = _employeeRepo.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+            var employee = mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employees);
+            return employee;
+
+
+
+
 
             #region Example On IEnumrable 
             //var Result = _employeeRepo.GetEnumrable()
@@ -50,12 +58,6 @@ namespace Demo.BusinessLogic.Services.Classes
             //     });
             //return Result.ToList(); 
             #endregion
-
-
-
-
-
-
         }
 
 
