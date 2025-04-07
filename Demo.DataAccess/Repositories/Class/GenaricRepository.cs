@@ -24,28 +24,25 @@ namespace Demo.DataAccess.Repositories.Class
         #endregion
 
         #region Update Operation
-        public int Update(T Employee)
+         public void  Update(T Employee)
         {
             dbContext.Set<T>().Update(Employee);//here Update Locally not in Database 
-            return dbContext.SaveChanges();//here  to Update In Data Base 
-                                           // SaveChanges() Return Number of affected Row 
+           
         }
         #endregion
 
         #region Delete Operation
-        public int Remove(T Employee)
+        public void Remove(T Employee)
         {
             dbContext.Set<T>().Remove(Employee);
-            return dbContext.SaveChanges();//Return N of Row Affected 
         }
         #endregion
 
         #region Insert Operation 
-        public int Add(T Employee)
+        public void Add(T Employee)
         {
             dbContext.Set<T>().Add(Employee);
-            return dbContext.SaveChanges();//Return N of Row Affected 
-        }
+             }
 
         public IEnumerable<TResult> GetAll<TResult>(Expression<Func<T, TResult>> Selector)
         {

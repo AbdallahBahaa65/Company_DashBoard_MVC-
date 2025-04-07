@@ -2,6 +2,7 @@ using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Contexts;
+using Demo.DataAccess.Repositories.Class;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 using Demo.DataAccess.Repositories.Class.EmployeeRepository;
 using Demo.DataAccess.Repositories.Interface;
@@ -39,6 +40,7 @@ namespace Demo.Presentation
             //builder.Services.AddScoped<IDepartmentService,DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             builder.Services.AddScoped<IEmployeeSerivces,EmployeeSerivces>();
+            builder.Services.AddScoped<IUniteOfWork,UniteOfWork>();
 
             //builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
             builder.Services.AddAutoMapper(M=>M.AddProfile(new MapperProfiles()));

@@ -29,12 +29,10 @@ namespace Demo.DataAccess.Repositories.Class.DepartmentRepositry
         #endregion
 
         #region Update Operation
-        public int Update(Department department)
+        public void Update(Department department)
         {
             _dbContext.Departments.Update(department);//here Update Locally not in Database 
-            return _dbContext.SaveChanges();//here  to Update In Data Base 
-                                            // SaveChanges() Return Number of affected Row 
-        }
+           }
         #endregion
 
         #region Delete Operation
@@ -46,10 +44,10 @@ namespace Demo.DataAccess.Repositories.Class.DepartmentRepositry
         #endregion
 
         #region Insert Operation 
-        public int Add(Department department)
+        public void Add(Department department)
         {
             _dbContext.Departments.Add(department);
-            return _dbContext.SaveChanges();//Return N of Row Affected 
+          
         }
 
         public IEnumerable<Department> GetAll<TResult>(System.Linq.Expressions.Expression<Func<Department, TResult>> Selector)
@@ -63,6 +61,11 @@ namespace Demo.DataAccess.Repositories.Class.DepartmentRepositry
         }
 
         public IEnumerable<Department> GetAll(Expression<Func<Department, bool>> Predic)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IGenaricRepository<Department>.Remove(Department employee)
         {
             throw new NotImplementedException();
         }
