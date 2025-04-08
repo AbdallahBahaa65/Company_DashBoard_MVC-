@@ -6,12 +6,12 @@ using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class DepartmentService(IDepartmentRepo departmentRepo) : IDepartmentService
+    public class DepartmentService(IUniteOfWork _uniteOfWork) : IDepartmentService
     {
 
         public IEnumerable<DepartmentDto> GetAll()
         {
-            var departmentList = departmentRepo.GetAll();
+            var departmentList = _uniteOfWork.DepartmentReposatry.GetAll();
 
             return departmentList.Select(D => D.ToDepartmentDto());
         }
@@ -19,7 +19,7 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public DepartmentDetailsDto? GetDetails(int id)
         {
-            var Dep = departmentRepo.GetById(id);
+            var Dep = _uniteOfWork.DepartmentReposatry.GetById(id);
 
             return Dep?.ToDepartmentDetailsDto();
         }
@@ -28,24 +28,27 @@ namespace Demo.BusinessLogic.Services.Classes
         public int AddDepartment(CreateDepartmentDto departmentDto)
         {
             var department = departmentDto.ToEntity();
-            return departmentRepo.Add(department);
+            _uniteOfWork.DepartmentReposatry.Add(department);
+            return _uniteOfWork.SaveChanges();
         }
 
 
         public int UpdateDepartment(UpdateDepartmentDto departmentDto)
         {
-            return departmentRepo.Update(departmentDto.ToEntity());
+           _uniteOfWork.DepartmentReposatry.Update(departmentDto.ToEntity());
+            return _uniteOfWork.SaveChanges();
+
         }
         public bool DeleteDepartment(int id)
         {
 
-            var department = departmentRepo.GetById(id);
+            var department = _uniteOfWork.DepartmentReposatry.GetById(id);
 
             if (department is null) return false;
             else
             {
-                int Result = departmentRepo.Remove(department);
-                return Result > 0 ? true : false;
+                 _uniteOfWork.DepartmentReposatry.Remove(department);
+                    return _uniteOfWork.SaveChanges()>0 ? true : false;
             }
         }
 

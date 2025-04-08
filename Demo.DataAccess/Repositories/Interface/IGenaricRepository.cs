@@ -5,13 +5,14 @@ namespace Demo.DataAccess.Repositories.Interface
 {
     public interface IGenaricRepository<TEntity> where TEntity : BaseEntity
     {
-        public IEnumerable<TEntity> GetAll(bool withTracking = false);
-        public IEnumerable<TEntity> GetAll<TResult>(Expression<Func<TEntity,TResult>> Selector);
-        public TEntity GetById(int id);
+         IEnumerable<TEntity> GetAll(bool withTracking = false);
+         IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> Selector);
+         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> Predic);
+         TEntity GetById(int id);
 
-        public int Update(TEntity employee);
-        public int Remove(TEntity employee);
-        public int Add(TEntity employee);
+        void Update(TEntity employee);
+        void Remove(TEntity employee);
+        void Add(TEntity employee);
 
         //IEnumerable<TEntity> GetEnumrable();
         //IQueryable<TEntity> GetEQueryable();

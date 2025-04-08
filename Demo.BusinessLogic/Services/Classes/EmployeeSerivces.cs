@@ -10,21 +10,31 @@ using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeSerivces(IEmployeeRepo _employeeRepo, IMapper mapper) : IEmployeeSerivces
+    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper) : IEmployeeSerivces
     {
-        public IEnumerable<EmployeeDto> GetAllEmployees()
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
 
 
-            var employees = _employeeRepo.GetAll(E=> new EmployeeDto()
+            var employees = _uniteOfWork.EmployeeReposatry.GetAll(E => new EmployeeDto()
             {
                 Id = E.Id,
                 Name = E.Name,
-                Salary = E.Salary   
+                Salary = E.Salary
             });
-            //return mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(departmentList);
 
-            return (IEnumerable<EmployeeDto>)employees;
+
+            IEnumerable<Employee> Employees;
+            if (string.IsNullOrWhiteSpace(EmployeeSearchName))
+                Employees = _uniteOfWork.EmployeeReposatry.GetAll();
+            else
+                Employees = _uniteOfWork.EmployeeReposatry.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+            var employee = mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employees);
+            return employee;
+
+
+
+
 
             #region Example On IEnumrable 
             //var Result = _employeeRepo.GetEnumrable()
@@ -48,18 +58,12 @@ namespace Demo.BusinessLogic.Services.Classes
             //     });
             //return Result.ToList(); 
             #endregion
-
-
-
-
-
-
         }
 
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
-            var Dep = _employeeRepo.GetById(id);
+            var Dep = _uniteOfWork.EmployeeReposatry.GetById(id);
             return Dep is null ? null : mapper.Map<Employee, EmployeeDetailsDto>(Dep);
         }
 
@@ -67,23 +71,29 @@ namespace Demo.BusinessLogic.Services.Classes
         public int CreateEmoplyee(CreateEmploeeDto emploeeDto)
         {
             var employee = mapper.Map<CreateEmploeeDto, Employee>(emploeeDto);
-            return _employeeRepo.Add(employee);
+           _uniteOfWork.EmployeeReposatry.Add(employee);
+
+            return _uniteOfWork.SaveChanges();
+
         }
 
 
         public int UpdateEmployee(UpdateEmployeeDto employeeDto)
         {
-            return _employeeRepo.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));
+           _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));
+
+            return _uniteOfWork.SaveChanges();
         }
 
         public bool DeleteEmplyee(int id)
         {
-            var emp = _employeeRepo.GetById(id);
+            var emp = _uniteOfWork.EmployeeReposatry.GetById(id);
 
             if (emp != null)
             {
                 emp.IsDeleted = true;
-                return _employeeRepo.Update(emp) > 0 ? true : false;
+               _uniteOfWork.EmployeeReposatry.Update(emp) ;
+                return _uniteOfWork.SaveChanges() > 0 ? true : false;
             }
             return false;
 

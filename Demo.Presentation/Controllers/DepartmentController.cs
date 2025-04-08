@@ -10,6 +10,23 @@ namespace Demo.Presentation.Controllers
     {
         public IActionResult Index()
         {
+            //ViewData["Message"] = "Hallo From View Data";
+            //ViewBag.Message= "Hallo From View Data";
+
+
+            //ViewBag.Message = new DepartmentDto()
+            //{
+            //    Name = "Test View Bag "
+            //};
+
+            //ViewData["Message"] = new DepartmentDto()
+            //{
+            //    Name = "Test View Data "
+            //};
+
+
+
+
             var department = departmentService.GetAll();
 
             return View(department);
@@ -26,17 +43,33 @@ namespace Demo.Presentation.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(CreateDepartmentDto departmentDto)
+        public IActionResult Create(DepartmentEditeViewModel departmentEditeView)
         {
+
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int Result = departmentService.AddDepartment(departmentDto);
+                    var departmentDto = new CreateDepartmentDto()
+                    {
+                        Code = departmentEditeView.Code,
+                        Description = departmentEditeView.Description,
+                        Name = departmentEditeView.Name,
+                        DateOfCreation = departmentEditeView.DateOfCreation
 
+                    };
+                    int Result = departmentService.AddDepartment(departmentDto);
+                    string Message;
                     if (Result > 0)
-                        return RedirectToAction(nameof(Index));
+                        Message = $"Department {departmentDto.Name} Created Successfully ";
+                    else 
+                        Message = $"Department {departmentDto.Name}  Not Created  ";
+
+
+                    TempData["Message"]=Message;
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
@@ -52,7 +85,7 @@ namespace Demo.Presentation.Controllers
                 }
             }
 
-            return View(departmentDto);
+            return View(departmentEditeView);
         }
 
 
@@ -86,7 +119,7 @@ namespace Demo.Presentation.Controllers
                 Code = Result.Code,
                 Name = Result.Name,
                 Description = Result.Description,
-                DateOfCreate = Result.CreatedOn
+                DateOfCreation = Result.CreatedOn
 
             };
 
@@ -184,8 +217,8 @@ namespace Demo.Presentation.Controllers
                 else
                 {
                     _logger.LogError(ex.Message);
-                    return View("ErrorView",ex);
-                        
+                    return View("ErrorView", ex);
+
                 }
             }
 

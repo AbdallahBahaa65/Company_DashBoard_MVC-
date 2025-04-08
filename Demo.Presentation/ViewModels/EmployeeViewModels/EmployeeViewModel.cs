@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Demo.DataAccess.Models.EmployeeModels.EmployeeEnums;
+﻿using Demo.DataAccess.Models.EmployeeModels.EmployeeEnums;
 using Demo.DataAccess.Models.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
+namespace Demo.Presentation.ViewModels.EmployeeViewModels
 {
-    public class CreateEmploeeDto
+    public class EmployeeViewModel
     {
+        public int Id { get; set; }
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
         [MinLength(5, ErrorMessage = "Min length should be 5 characters")]
@@ -34,6 +30,7 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
         public Gender Gender { get; set; }
         public EmployeeTypes EmployeeType { get; set; }
 
-        public int? DepartmentId  { get; set; }
+        [Display (Name ="Department")]
+        public int? DepartmentId { get; set; }
     }
 }

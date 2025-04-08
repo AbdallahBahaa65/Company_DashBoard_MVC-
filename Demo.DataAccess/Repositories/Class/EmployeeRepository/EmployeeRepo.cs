@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Demo.DataAccess.Repositories.Class.EmployeeRepository
 {
-    public class EmployeeRepo(ApplicationDbContext dbContext) :GenaricRepository<Employee>(dbContext) ,IEmployeeRepo/*, IEmployeeRepo*/
+    public class EmployeeRepo(ApplicationDbContext dbContext) : GenaricRepository<Employee>(dbContext), IEmployeeRepo/*, IEmployeeRepo*/
     {
         //#region CRUD Operations
 
