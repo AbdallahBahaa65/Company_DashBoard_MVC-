@@ -26,10 +26,18 @@ namespace Demo.BusinessLogic.Services.AttachmentServices
             var filePath = Path.Combine(folderPath, fileName);
 
 
-            using FileStream fs = new FileStream(filePath, FileMode.Create);
+              using  FileStream fs = new FileStream(filePath, FileMode.Create);
+            //try
+            //{
+            //}
+            //finally
+            //{
+            //    fs.Dispose();
 
-            //file.CopyTo(fs);
-            File.Create(filePath);
+            //}
+
+            file.CopyTo(fs);
+            //File.Create(filePath);
 
             return fileName;
 

@@ -43,7 +43,7 @@ namespace Demo.Presentation.Controllers
                         Name = employeeViewModel.Name,
                         PhoneNumber = employeeViewModel.PhoneNumber,
                         Salary = employeeViewModel.Salary,
-                        Image= employeeViewModel.Image 
+                        ImageName= employeeViewModel.Image 
 
                     
                     
@@ -103,7 +103,7 @@ namespace Demo.Presentation.Controllers
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
                 DepartmentId = emp.DepartmentId,
-                Image=emp.Image
+             
                 
             };
             return View(employeeDto);

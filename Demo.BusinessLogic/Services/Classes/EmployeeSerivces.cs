@@ -71,11 +71,11 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int CreateEmoplyee(CreateEmploeeDto emploeeDto)
         {
-            var employee = mapper.Map<Employee>(emploeeDto);
+            var employee = mapper.Map<CreateEmploeeDto ,Employee>(emploeeDto);
 
-            if (emploeeDto.Image is not null)
+            if (emploeeDto.ImageName is not null)
             {
-                employee.ImageName = _attachmentServices.Upload(emploeeDto.Image, "Images");
+                employee.ImageName = _attachmentServices.Upload(emploeeDto.ImageName, "Images");
 
             }
             _uniteOfWork.EmployeeReposatry.Add(employee);
