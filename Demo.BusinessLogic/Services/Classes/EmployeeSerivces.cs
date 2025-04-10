@@ -2,6 +2,7 @@
 using Demo.BusinessLogic.DataTransferObjects;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDTO;
 using Demo.BusinessLogic.Factories;
+using Demo.BusinessLogic.Services.AttachmentServices.AttachmentServices;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModels;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
@@ -10,7 +11,7 @@ using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper) : IEmployeeSerivces
+    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper , IAttachmentServices _attachmentServices) : IEmployeeSerivces
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
@@ -97,6 +98,11 @@ namespace Demo.BusinessLogic.Services.Classes
             }
             return false;
 
+        }
+
+        public IEnumerable<EmployeeDto> GetAllEmployees()
+        {
+            throw new NotImplementedException();
         }
     }
 }
