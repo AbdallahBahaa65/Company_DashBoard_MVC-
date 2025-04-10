@@ -42,7 +42,8 @@ namespace Demo.Presentation.Controllers
                         IsActive = employeeViewModel.IsActive,
                         Name = employeeViewModel.Name,
                         PhoneNumber = employeeViewModel.PhoneNumber,
-                        Salary = employeeViewModel.Salary
+                        Salary = employeeViewModel.Salary,
+                        Image= employeeViewModel.Image 
 
                     
                     
@@ -101,7 +102,9 @@ namespace Demo.Presentation.Controllers
                 Name = emp.Name,
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
-                DepartmentId = emp.DepartmentId
+                DepartmentId = emp.DepartmentId,
+                Image=emp.Image
+                
             };
             return View(employeeDto);
 
@@ -131,7 +134,9 @@ namespace Demo.Presentation.Controllers
                     Salary = employeeViewModel.Salary,
                     EmployeeType = employeeViewModel.EmployeeType,
                     Gender = employeeViewModel.Gender,
-                    HiringDate = employeeViewModel.HiringDate
+                    HiringDate = employeeViewModel.HiringDate,
+                    Image=employeeViewModel.Image
+                    
                 };
                 var Result = employeeSerivces.UpdateEmployee(employeeDto);
                 if (Result > 0)

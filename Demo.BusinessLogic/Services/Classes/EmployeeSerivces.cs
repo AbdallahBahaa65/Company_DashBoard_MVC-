@@ -11,7 +11,7 @@ using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper , IAttachmentServices _attachmentServices) : IEmployeeSerivces
+    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper, IAttachmentServices _attachmentServices) : IEmployeeSerivces
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
@@ -71,9 +71,14 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int CreateEmoplyee(CreateEmploeeDto emploeeDto)
         {
-            var employee = mapper.Map<CreateEmploeeDto, Employee>(emploeeDto);
-           _uniteOfWork.EmployeeReposatry.Add(employee);
+            var employee = mapper.Map<Employee>(emploeeDto);
 
+            if (emploeeDto.Image is not null)
+            {
+                employee.ImageName = _attachmentServices.Upload(emploeeDto.Image, "Images");
+
+            }
+            _uniteOfWork.EmployeeReposatry.Add(employee);
             return _uniteOfWork.SaveChanges();
 
         }
@@ -81,7 +86,7 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int UpdateEmployee(UpdateEmployeeDto employeeDto)
         {
-           _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));
+            _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));
 
             return _uniteOfWork.SaveChanges();
         }
@@ -93,7 +98,7 @@ namespace Demo.BusinessLogic.Services.Classes
             if (emp != null)
             {
                 emp.IsDeleted = true;
-               _uniteOfWork.EmployeeReposatry.Update(emp) ;
+                _uniteOfWork.EmployeeReposatry.Update(emp);
                 return _uniteOfWork.SaveChanges() > 0 ? true : false;
             }
             return false;

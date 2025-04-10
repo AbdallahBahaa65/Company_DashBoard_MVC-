@@ -19,9 +19,9 @@ namespace Demo.BusinessLogic.Services.AttachmentServices
 
             if (file.Length == 0 || file.Length > maxFileSize) return null;
 
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "www\\Files", FolderName);
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot\\Files",FolderName);
 
-            var fileName = $"{Guid.NewGuid()}{file.FileName}";
+            var fileName = $"{Guid.NewGuid()}_{file.FileName}";
 
             var filePath = Path.Combine(folderPath, fileName);
 

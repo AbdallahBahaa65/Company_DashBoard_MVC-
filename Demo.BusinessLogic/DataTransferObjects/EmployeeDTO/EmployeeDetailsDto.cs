@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+
 namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
 {
     public  class EmployeeDetailsDto
@@ -21,6 +23,8 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
         public int? DepartmentId  { get; set; }
 
         public string? Department { get; set; }
+
+        public  IFormFile? Image { get; set; }
 
 
     }
