@@ -71,7 +71,7 @@ namespace Demo.Presentation
             app.UseRouting();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Account}/{action=Register}/{id?}"); 
+                pattern: "{controller=Home}/{action=Index}/{id?}"); 
             #endregion
 
             app.Run();

@@ -86,7 +86,13 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int UpdateEmployee(UpdateEmployeeDto employeeDto)
         {
-            _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));
+
+            if (employeeDto.Image is not null)
+            {
+                employeeDto.ImageName = _attachmentServices.Upload(employeeDto.Image , "Images");
+
+            }
+            _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));   
 
             return _uniteOfWork.SaveChanges();
         }

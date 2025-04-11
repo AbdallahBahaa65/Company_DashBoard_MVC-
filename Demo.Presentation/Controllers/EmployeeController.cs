@@ -1,4 +1,5 @@
-﻿using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS;
+﻿using System.Net.Mail;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDTO;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
@@ -103,6 +104,7 @@ namespace Demo.Presentation.Controllers
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
                 DepartmentId = emp.DepartmentId,
+                Image=emp.Image
              
                 
             };
@@ -121,6 +123,10 @@ namespace Demo.Presentation.Controllers
 
             try
             {
+
+
+
+
                 var employeeDto = new UpdateEmployeeDto()
                 {
                     Id = id.Value,
@@ -167,7 +173,10 @@ namespace Demo.Presentation.Controllers
 
             }
         }
-            [HttpPost]
+          
+        
+        
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             if (id==0   ) return BadRequest();
