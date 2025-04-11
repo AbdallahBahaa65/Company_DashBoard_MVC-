@@ -21,7 +21,8 @@ namespace Demo.BusinessLogic.Services.Classes
             {
                 Id = E.Id,
                 Name = E.Name,
-                Salary = E.Salary
+                Salary = E.Salary,
+                Image=E.ImageName,
             });
 
 

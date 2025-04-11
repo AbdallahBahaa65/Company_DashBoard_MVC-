@@ -20,7 +20,9 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
 
         public string? Department { get; set; }
 
-        //public string? Image { get; set; }
+        public string? Image { get; set; }
+
+        //public IFormFile? ImagePhoto { get; set; }
 
 
 
