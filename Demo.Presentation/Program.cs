@@ -89,7 +89,7 @@ namespace Demo.Presentation
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"); 
+                pattern: "{controller=Account}/{action=LogIn}/{id?}"); 
             #endregion
 
             app.Run();

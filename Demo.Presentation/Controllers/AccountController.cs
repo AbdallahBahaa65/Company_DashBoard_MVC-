@@ -81,5 +81,15 @@ namespace Demo.Presentation.Controllers
             return View(loginView);
         }
 
+
+        [HttpGet]
+        public new IActionResult SignOut()
+        {
+           _signInManager.SignOutAsync();
+
+            return RedirectToAction(nameof(LogIn));
+        }
+
+
     }
 }
