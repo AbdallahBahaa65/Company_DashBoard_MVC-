@@ -2,6 +2,7 @@
 using Demo.BusinessLogic.DataTransferObjects;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDTO;
 using Demo.BusinessLogic.Factories;
+using Demo.BusinessLogic.Services.AttachmentServices.AttachmentServices;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModels;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
@@ -10,7 +11,7 @@ using Demo.DataAccess.Repositories.Interface;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper) : IEmployeeSerivces
+    public class EmployeeSerivces(IUniteOfWork _uniteOfWork, IMapper mapper, IAttachmentServices _attachmentServices) : IEmployeeSerivces
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
@@ -20,7 +21,8 @@ namespace Demo.BusinessLogic.Services.Classes
             {
                 Id = E.Id,
                 Name = E.Name,
-                Salary = E.Salary
+                Salary = E.Salary,
+                Image=E.ImageName,
             });
 
 
@@ -70,9 +72,14 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int CreateEmoplyee(CreateEmploeeDto emploeeDto)
         {
-            var employee = mapper.Map<CreateEmploeeDto, Employee>(emploeeDto);
-           _uniteOfWork.EmployeeReposatry.Add(employee);
+            var employee = mapper.Map<CreateEmploeeDto ,Employee>(emploeeDto);
 
+            if (emploeeDto.ImageName is not null)
+            {
+                employee.ImageName = _attachmentServices.Upload(emploeeDto.ImageName, "Images");
+
+            }
+            _uniteOfWork.EmployeeReposatry.Add(employee);
             return _uniteOfWork.SaveChanges();
 
         }
@@ -80,7 +87,13 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int UpdateEmployee(UpdateEmployeeDto employeeDto)
         {
-           _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));
+
+            if (employeeDto.Image is not null)
+            {
+                employeeDto.ImageName = _attachmentServices.Upload(employeeDto.Image , "Images");
+
+            }
+            _uniteOfWork.EmployeeReposatry.Update(mapper.Map<UpdateEmployeeDto, Employee>(employeeDto));   
 
             return _uniteOfWork.SaveChanges();
         }
@@ -92,11 +105,16 @@ namespace Demo.BusinessLogic.Services.Classes
             if (emp != null)
             {
                 emp.IsDeleted = true;
-               _uniteOfWork.EmployeeReposatry.Update(emp) ;
+                _uniteOfWork.EmployeeReposatry.Update(emp);
                 return _uniteOfWork.SaveChanges() > 0 ? true : false;
             }
             return false;
 
+        }
+
+        public IEnumerable<EmployeeDto> GetAllEmployees()
+        {
+            throw new NotImplementedException();
         }
     }
 }

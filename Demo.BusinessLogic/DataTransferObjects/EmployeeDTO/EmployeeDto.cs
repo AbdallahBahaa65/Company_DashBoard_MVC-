@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
 {
@@ -18,6 +19,11 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTO
         public string EmployeeType { get; set; }
 
         public string? Department { get; set; }
+
+        public string? Image { get; set; }
+
+        //public IFormFile? ImagePhoto { get; set; }
+
 
 
     }

@@ -1,4 +1,5 @@
-﻿using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS;
+﻿using System.Net.Mail;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOS;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDTO;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
@@ -42,7 +43,8 @@ namespace Demo.Presentation.Controllers
                         IsActive = employeeViewModel.IsActive,
                         Name = employeeViewModel.Name,
                         PhoneNumber = employeeViewModel.PhoneNumber,
-                        Salary = employeeViewModel.Salary
+                        Salary = employeeViewModel.Salary,
+                        ImageName= employeeViewModel.Image 
 
                     
                     
@@ -101,7 +103,10 @@ namespace Demo.Presentation.Controllers
                 Name = emp.Name,
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
-                DepartmentId = emp.DepartmentId
+                DepartmentId = emp.DepartmentId,
+                Image=emp.Image
+             
+                
             };
             return View(employeeDto);
 
@@ -118,6 +123,10 @@ namespace Demo.Presentation.Controllers
 
             try
             {
+
+
+
+
                 var employeeDto = new UpdateEmployeeDto()
                 {
                     Id = id.Value,
@@ -131,7 +140,9 @@ namespace Demo.Presentation.Controllers
                     Salary = employeeViewModel.Salary,
                     EmployeeType = employeeViewModel.EmployeeType,
                     Gender = employeeViewModel.Gender,
-                    HiringDate = employeeViewModel.HiringDate
+                    HiringDate = employeeViewModel.HiringDate,
+                    Image=employeeViewModel.Image
+                    
                 };
                 var Result = employeeSerivces.UpdateEmployee(employeeDto);
                 if (Result > 0)
@@ -162,7 +173,10 @@ namespace Demo.Presentation.Controllers
 
             }
         }
-            [HttpPost]
+          
+        
+        
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             if (id==0   ) return BadRequest();
