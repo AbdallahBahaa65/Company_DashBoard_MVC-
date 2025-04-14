@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Models.IdentiyModel;
+using Demo.Presentation.Utilities;
 using Demo.Presentation.ViewModels.AccountViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,21 +58,22 @@ namespace Demo.Presentation.Controllers
 
                 var flag = _userManager.CheckPasswordAsync(user, loginView.Password).Result;
 
-                if (flag) {
+                if (flag)
+                {
                     var Result = _signInManager.PasswordSignInAsync(user, loginView.Password, loginView.RememberMe, false).Result;
 
                     if (Result.IsNotAllowed)
                         ModelState.AddModelError(string.Empty, "Your Account Isnot Confirmed Yet ");
-                     
-                    
+
+
                     if (Result.IsLockedOut)
                         ModelState.AddModelError(string.Empty, "Your Account Locked !");
 
 
-                    if (!Result.Succeeded) 
+                    if (!Result.Succeeded)
                         return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
-                
+
             }
 
 
@@ -85,11 +87,41 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public new IActionResult SignOut()
         {
-           _signInManager.SignOutAsync();
+            _signInManager.SignOutAsync();
 
             return RedirectToAction(nameof(LogIn));
         }
 
 
+
+        [HttpGet]
+        public IActionResult ForgetPassword() => View();
+
+        [HttpPost]
+        public IActionResult SendResetPasswordLink(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var User = _userManager.FindByEmailAsync(forgetPasswordViewModel.Email).Result;
+                if (User is not null)
+                {  
+                    
+                    //Send Email 
+                    var email = new Email()
+                    {
+
+                        To = User.Email,
+                        Subject = "Reset Password ",
+                        Body = "Reset Password Link"
+                    };
+                  
+
+                }
+
+            }
+            ModelState.AddModelError(string.Empty, "Invalid Operation ");
+            return View(nameof(ForgetPassword), forgetPasswordViewModel);
+        }
     }
 }
+
