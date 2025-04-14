@@ -1,3 +1,4 @@
+using System.Net;
 using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.AttachmentServices;
 using Demo.BusinessLogic.Services.AttachmentServices.AttachmentServices;
@@ -9,6 +10,7 @@ using Demo.DataAccess.Repositories.Class;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 using Demo.DataAccess.Repositories.Class.EmployeeRepository;
 using Demo.DataAccess.Repositories.Interface;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +49,19 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IUniteOfWork,UniteOfWork>();
             builder.Services.AddScoped<IAttachmentServices,AttachmentService>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                   .AddEntityFrameworkStores<ApplicationDbContext>();
+                            .AddEntityFrameworkStores<ApplicationDbContext>()
+                            .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                options=>
+                {
+                    options.LogoutPath = "/Account/LogIn";
+                    options.AccessDeniedPath = "/Home/Error";
+                    options.LogoutPath = "/Account/Login";
+                }
+                
+                );
+
 
             //builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
             builder.Services.AddAutoMapper(M=>M.AddProfile(new MapperProfiles()));
@@ -69,6 +83,10 @@ namespace Demo.Presentation
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"); 

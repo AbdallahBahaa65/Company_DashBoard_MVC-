@@ -6,10 +6,12 @@ using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModels.EmployeeEnums;
 using Demo.DataAccess.Models.Shared.Enums;
 using Demo.Presentation.ViewModels.EmployeeViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
+    [Authorize]
     public class EmployeeController(IEmployeeSerivces employeeSerivces, ILogger<EmployeeController> _logger, IWebHostEnvironment _environment,IDepartmentService departmentService ) : Controller
     {
         public IActionResult Index(string? EmployeeSearchName )

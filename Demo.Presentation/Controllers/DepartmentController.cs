@@ -2,10 +2,13 @@
 using Demo.BusinessLogic.Factories;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.Presentation.ViewModels.DepartmentViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
+
+    [Authorize]
     public class DepartmentController(IDepartmentService departmentService, IWebHostEnvironment _environment, ILogger<DepartmentController> _logger) : Controller
     {
         public IActionResult Index()
