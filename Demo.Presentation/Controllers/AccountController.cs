@@ -29,7 +29,7 @@ namespace Demo.Presentation.Controllers
             var Result = _userManager.CreateAsync(User, registerView.Password).Result;
 
             if (Result.Succeeded)
-                RedirectToAction("Login");
+                RedirectToAction("LogIn");
             else
             {
                 foreach (var error in Result.Errors)
@@ -49,7 +49,7 @@ namespace Demo.Presentation.Controllers
 
         public IActionResult LogIn(LoginViewModel loginView)
         {
-            if (ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return View(loginView);
 
             var user = _userManager.FindByEmailAsync(loginView.Email).Result;
 
@@ -70,16 +70,14 @@ namespace Demo.Presentation.Controllers
                         ModelState.AddModelError(string.Empty, "Your Account Locked !");
 
 
-                    if (!Result.Succeeded)
+                    if (Result.Succeeded)
                         return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
 
             }
+            else
+                ModelState.AddModelError(string.Empty,"Invalid Login"); 
 
-
-
-
-            ModelState.AddModelError(string.Empty, "Invalid Login Attempet ");
             return View(loginView);
         }
 

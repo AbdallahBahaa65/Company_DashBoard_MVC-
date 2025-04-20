@@ -53,13 +53,13 @@ namespace Demo.Presentation
                             .AddDefaultTokenProviders();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-                options=>
+                options =>
                 {
                     options.LogoutPath = "/Account/LogIn";
                     options.AccessDeniedPath = "/Home/Error";
-                    options.LogoutPath = "/Account/Login";
+                    options.LogoutPath = "/Account/LogIn";
                 }
-                
+
                 );
 
 

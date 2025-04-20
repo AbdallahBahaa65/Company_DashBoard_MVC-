@@ -47,13 +47,9 @@ namespace Demo.Presentation.Controllers
                         PhoneNumber = employeeViewModel.PhoneNumber,
                         Salary = employeeViewModel.Salary,
                         ImageName= employeeViewModel.Image 
-
-                    
-                    
                     };
 
                     int Result = employeeSerivces.CreateEmoplyee(employeeDto);
-
                     if (Result > 0)
                         return RedirectToAction(nameof(Index));
                 }
@@ -62,7 +58,6 @@ namespace Demo.Presentation.Controllers
                     if (_environment.IsDevelopment())
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
-
                     }
                     else
                     {
@@ -70,9 +65,7 @@ namespace Demo.Presentation.Controllers
                     }
                 }
             }
-
             return View(employeeViewModel);
-
         }
 
 

@@ -4,7 +4,7 @@ namespace Demo.Presentation.ViewModels.AccountViewModel
 {
     public class LoginViewModel
     {
-        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = null!;
         
         

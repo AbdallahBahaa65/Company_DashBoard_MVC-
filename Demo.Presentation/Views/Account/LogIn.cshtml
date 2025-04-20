@@ -17,13 +17,15 @@
 				<input asp-for="Password" placeholder="Password">
 				<span asp-validation-for="Password" class="text-danger"></span>
 				<br />
+				
+				<div class="wthree-text">
 				<label class="anim">
 					<input asp-for="RememberMe" class="checkbox" required="">
 					<span>Remember Me</span>
 				</label>
-				<div class="clear"> </div>
-
-				<input type="submit" value="Login">
+				@* <div class="clear"> </div> *@
+				</div>
+				<input type="submit" value="LogIn">
 			</form>
 			<p>Don't have an Account? <a asp-action="Register">Register Now!</a></p>
 			<p> <a asp-action="ForgetPassword">Forget Password!</a></p>

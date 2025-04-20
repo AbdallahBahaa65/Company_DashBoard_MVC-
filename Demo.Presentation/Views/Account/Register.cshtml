@@ -1,8 +1,8 @@
 ﻿@using Demo.Presentation.ViewModels.AccountViewModel
 @model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+	ViewData["Title"] = "Register";
+	Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
 <div class="main-w3layouts wrapper">
@@ -15,41 +15,40 @@
 
 
 
-				<input  asp-for="UserName" placeholder="Username">
+				<input asp-for="UserName" placeholder="Username" required="">
 				<span asp-validation-for="UserName" class="text-danger"></span>
-				<br />	
-				<input  asp-for="FirstName" placeholder="Name">
+				<br />
+				<input asp-for="FirstName" placeholder="First Name" required="">
 				<span asp-validation-for="FirstName" class="text-danger"></span>
-				<br />	
-				<input  asp-for="LastName" placeholder="LastName">
+				<br />
+				<input asp-for="LastName" placeholder="LastName" required="">
 				<span asp-validation-for="LastName" class="text-danger"></span>
-				<br />	
-				<input asp-for="UserName" placeholder="Name" >
-				<span asp-validation-for="UserName" class="text-danger"></span>
-				<br />	
-				<input  asp-for="Email" placeholder="Email" >
+				<br />
+				<input asp-for="Email" placeholder="Email" required="">
 				<span asp-validation-for="Email" class="text-danger"></span>
-				<br />	
-				<input   asp-for="Password" placeholder="Password" >
+				<br />
+				<input asp-for="Password" placeholder="Password" required="">
 				<span asp-validation-for="Password" class="text-danger"></span>
 				<br />
-				<input asp-for="ConfirmPassword" placeholder="ConfirmPassword" >
+				<input asp-for="ConfirmPassword" placeholder="ConfirmPassword" required="">
 				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-				<br />	
-			
+				<br />
+				<div class="Wthree-text" >
 					<label class="anim">
-						<input asp-for="IsAgree" class="checkbox" required="">
+						<input asp-for="IsAgree" class="checkbox" >
 						<span>I Agree To The Terms & Conditions</span>
 					</label>
-					<div class="clear"> </div>
-		
-				<input type="submit" value="SIGNUP">
+					@* <div class="clear"> *@
+
+				</div>
+
+				<input type="submit" value="SIGNUP" @* asp-action="Register" *@>
 			</form>
 			<p> have an Account? <a asp-action="LogIn"> Login Now!</a></p>
 		</div>
 	</div>
 	<!-- copyright -->
-	
-	
+
+
 </div>
 <!-- //main -->
