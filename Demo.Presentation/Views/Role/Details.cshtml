@@ -1,0 +1,17 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="my-5 w-75">Role @Model.Name Details</h1>
+<div class="tab-content" id="myTabContent">
+    <!-- General Tab Content -->
+
+    <partial name="_UpdateDeleteDetailsPartialView" />
+
+    <div class="mt-4">
+        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Update</a>
+        <a asp-action="Index" class="btn btn-outline-dark">Back To list</a>
+    </div>
+
+</div>
