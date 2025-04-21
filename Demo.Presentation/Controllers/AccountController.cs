@@ -61,15 +61,10 @@ namespace Demo.Presentation.Controllers
                 if (flag)
                 {
                     var Result = _signInManager.PasswordSignInAsync(user, loginView.Password, loginView.RememberMe, false).Result;
-
                     if (Result.IsNotAllowed)
                         ModelState.AddModelError(string.Empty, "Your Account Isnot Confirmed Yet ");
-
-
                     if (Result.IsLockedOut)
                         ModelState.AddModelError(string.Empty, "Your Account Locked !");
-
-
                     if (Result.Succeeded)
                         return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
@@ -77,7 +72,6 @@ namespace Demo.Presentation.Controllers
             }
             else
                 ModelState.AddModelError(string.Empty,"Invalid Login"); 
-
             return View(loginView);
         }
 
