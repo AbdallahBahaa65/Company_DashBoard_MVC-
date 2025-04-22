@@ -2,6 +2,8 @@
 using Demo.Presentation.Helpers;
 using Demo.Presentation.Utilities;
 using Demo.Presentation.ViewModels.AccountViewModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -76,6 +78,36 @@ namespace Demo.Presentation.Controllers
             else
                 ModelState.AddModelError(string.Empty,"Invalid Login"); 
             return View(loginView);
+        }
+
+
+        public IActionResult GoogleLogin()
+        {
+            var prop = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+
+            return Challenge(prop,GoogleDefaults.AuthenticationScheme);
+
+        }
+
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+
+            var  Result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+            var Claims = Result.Principal.Identities.FirstOrDefault().Claims.Select(Claims => new
+            {
+                Claims.Type,
+                Claims.Value,
+                Claims.Issuer,
+                Claims.OriginalIssuer,
+            });
+
+            return RedirectToAction("Index","Home");
+
         }
 
 
