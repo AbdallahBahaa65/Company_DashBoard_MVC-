@@ -60,6 +60,10 @@ namespace Demo.Presentation
             builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 
+            
+            builder.Services.Configure<SmsSettings>(builder.Configuration.GetSection("Twilio"));
+
+
 
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
@@ -76,6 +80,7 @@ namespace Demo.Presentation
             //builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
             builder.Services.AddAutoMapper(M=>M.AddProfile(new MapperProfiles()));
             builder.Services.AddTransient<IMailService,MailService>();
+            builder.Services.AddTransient<ISmsService,SmsService>();
 
             #endregion
 

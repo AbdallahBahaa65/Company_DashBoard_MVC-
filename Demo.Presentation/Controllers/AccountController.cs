@@ -5,12 +5,14 @@ using Demo.Presentation.ViewModels.AccountViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.TwiML.Messaging;
 
 namespace Demo.Presentation.Controllers
 {
 
 
-    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager,IMailService _maleService) : Controller
+    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager,IMailService _maleService,ISmsService _smsService) : Controller
     {
         public IActionResult Register() => View();
 
@@ -116,6 +118,52 @@ namespace Demo.Presentation.Controllers
                     //EmailSettings.SendEmail(email);
                     _maleService.Send(email);
                     return RedirectToAction(nameof(CheckYourInbox));
+
+
+                }
+
+            }
+            ModelState.AddModelError(string.Empty, "Invalid Operation ");
+            return View(nameof(ForgetPassword), forgetPasswordViewModel);
+        }
+
+
+
+          [HttpPost]
+        public IActionResult SendResetPasswordLinkSms(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var User = _userManager.FindByEmailAsync(forgetPasswordViewModel.Email).Result;
+                if (User is not null)
+                {
+
+                    var token = _userManager.GeneratePasswordResetTokenAsync(User).Result;
+
+                    var URL = Url.Action("ResetPassword", "Account", new { email = forgetPasswordViewModel.Email, token }, Request.Scheme);
+
+
+                    ////Send Email 
+                    //var email = new Email()
+                    //{
+
+                    //    To = User.Email,
+                    //    Subject = "Reset Password ",
+                    //    Body = URL
+                    //};
+
+                    ////EmailSettings.SendEmail(email);
+                    //_maleService.Send(email);
+
+                    var Sms = new SmsMessage {
+                        Body = URL,
+                        PhoneNumber=User.PhoneNumber
+                        };
+
+                    _smsService.SendSms(Sms);
+
+
+                    return Ok("Check Your Sms ");
 
 
                 }
