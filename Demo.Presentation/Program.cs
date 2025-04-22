@@ -13,6 +13,7 @@ using Demo.DataAccess.Repositories.Interface;
 using Demo.Presentation.Helpers;
 using Demo.Presentation.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -58,9 +59,6 @@ namespace Demo.Presentation
 
 
             builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
-
-
-            
             builder.Services.Configure<SmsSettings>(builder.Configuration.GetSection("Twilio"));
 
 
@@ -72,9 +70,37 @@ namespace Demo.Presentation
                     options.LogoutPath = "/Account/LogIn";
                     options.AccessDeniedPath = "/Home/Error";
                     options.LogoutPath = "/Account/LogIn";
-                }
+                });
+                
 
-                );
+
+            builder.Services.AddAuthentication( options =>
+                {
+                    options.DefaultAuthenticateScheme =GoogleDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme =GoogleDefaults.AuthenticationScheme;
+
+                }
+                ).AddGoogle(
+                Options => {
+                    IConfiguration goolgeAuthSection = builder.Configuration.GetSection("Authenticaton:Google");
+
+                    Options.ClientId = goolgeAuthSection["ClientId"]; 
+                    
+                    Options.ClientSecret = goolgeAuthSection["ClientSecret"];
+
+                
+                
+                
+                
+                
+                
+                
+                }
+                
+                
+                
+                
+                ) ;
 
 
             //builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
