@@ -1,15 +1,20 @@
 ﻿using Demo.DataAccess.Models.IdentiyModel;
+using Demo.Presentation.Helpers;
 using Demo.Presentation.Utilities;
 using Demo.Presentation.ViewModels.AccountViewModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.TwiML.Messaging;
 
 namespace Demo.Presentation.Controllers
 {
 
 
-    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager) : Controller
+    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager,IMailService _maleService,ISmsService _smsService) : Controller
     {
         public IActionResult Register() => View();
 
@@ -76,6 +81,36 @@ namespace Demo.Presentation.Controllers
         }
 
 
+        public IActionResult GoogleLogin()
+        {
+            var prop = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+
+            return Challenge(prop,GoogleDefaults.AuthenticationScheme);
+
+        }
+
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+
+            var  Result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+            var Claims = Result.Principal.Identities.FirstOrDefault().Claims.Select(Claims => new
+            {
+                Claims.Type,
+                Claims.Value,
+                Claims.Issuer,
+                Claims.OriginalIssuer,
+            });
+
+            return RedirectToAction("Index","Home");
+
+        }
+
+
         [HttpGet]
         public new IActionResult SignOut()
         {
@@ -112,8 +147,55 @@ namespace Demo.Presentation.Controllers
                         Body = URL
                     };
 
-                    EmailSettings.SendEmail(email);
+                    //EmailSettings.SendEmail(email);
+                    _maleService.Send(email);
                     return RedirectToAction(nameof(CheckYourInbox));
+
+
+                }
+
+            }
+            ModelState.AddModelError(string.Empty, "Invalid Operation ");
+            return View(nameof(ForgetPassword), forgetPasswordViewModel);
+        }
+
+
+
+          [HttpPost]
+        public IActionResult SendResetPasswordLinkSms(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var User = _userManager.FindByEmailAsync(forgetPasswordViewModel.Email).Result;
+                if (User is not null)
+                {
+
+                    var token = _userManager.GeneratePasswordResetTokenAsync(User).Result;
+
+                    var URL = Url.Action("ResetPassword", "Account", new { email = forgetPasswordViewModel.Email, token }, Request.Scheme);
+
+
+                    ////Send Email 
+                    //var email = new Email()
+                    //{
+
+                    //    To = User.Email,
+                    //    Subject = "Reset Password ",
+                    //    Body = URL
+                    //};
+
+                    ////EmailSettings.SendEmail(email);
+                    //_maleService.Send(email);
+
+                    var Sms = new SmsMessage {
+                        Body = URL,
+                        PhoneNumber=User.PhoneNumber
+                        };
+
+                    _smsService.SendSms(Sms);
+
+
+                    return Ok("Check Your Sms ");
 
 
                 }
