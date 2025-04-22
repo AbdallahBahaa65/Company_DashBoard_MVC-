@@ -10,10 +10,13 @@ using Demo.DataAccess.Repositories.Class;
 using Demo.DataAccess.Repositories.Class.DepartmentRepositry;
 using Demo.DataAccess.Repositories.Class.EmployeeRepository;
 using Demo.DataAccess.Repositories.Interface;
+using Demo.Presentation.Helpers;
+using Demo.Presentation.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Demo.Presentation
 {
@@ -50,7 +53,14 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IAttachmentServices,AttachmentService>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<ApplicationDbContext>()
-                            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders();
+
+
+
+            builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
+
+
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>
@@ -65,6 +75,7 @@ namespace Demo.Presentation
 
             //builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
             builder.Services.AddAutoMapper(M=>M.AddProfile(new MapperProfiles()));
+            builder.Services.AddTransient<IMailService,MailService>();
 
             #endregion
 

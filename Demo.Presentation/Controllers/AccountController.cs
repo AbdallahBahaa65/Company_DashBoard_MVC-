@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Models.IdentiyModel;
+using Demo.Presentation.Helpers;
 using Demo.Presentation.Utilities;
 using Demo.Presentation.ViewModels.AccountViewModel;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,7 @@ namespace Demo.Presentation.Controllers
 {
 
 
-    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager) : Controller
+    public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager,IMailService _maleService) : Controller
     {
         public IActionResult Register() => View();
 
@@ -112,7 +113,8 @@ namespace Demo.Presentation.Controllers
                         Body = URL
                     };
 
-                    EmailSettings.SendEmail(email);
+                    //EmailSettings.SendEmail(email);
+                    _maleService.Send(email);
                     return RedirectToAction(nameof(CheckYourInbox));
 
 
