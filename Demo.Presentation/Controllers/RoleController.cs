@@ -22,8 +22,18 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Details(string Id)
         {
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             var roleDetails = _roleManager.FindByIdAsync(Id).Result;
+
+            if(roleDetails is not  null)
             return View(roleDetails);
+
+            else return NotFound();
+
+
         }
 
 
@@ -31,8 +41,16 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Delete(string Id)
         {
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             var deleteRole = _roleManager.FindByIdAsync(Id).Result;
+
+            if (deleteRole is not null)
             return View(deleteRole);
+
+            else return NotFound();
         }
 
 
@@ -40,6 +58,9 @@ namespace Demo.Presentation.Controllers
         [HttpPost]
         public IActionResult Delete(string Id, IdentityRole _identityRole)
         {
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
 
             if (!ModelState.IsValid) return View(_identityRole);
 
@@ -64,6 +85,9 @@ namespace Demo.Presentation.Controllers
         public IActionResult Update(string Id)
         {
 
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             var updateRole = _roleManager.FindByIdAsync(Id).Result;
             if (updateRole is not null)
                 return View(updateRole);
@@ -75,6 +99,9 @@ namespace Demo.Presentation.Controllers
         [HttpPost]
         public IActionResult Update(string Id, IdentityRole _identityRole)
         {
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
 
             if (!ModelState.IsValid) return View(_identityRole);
 
@@ -111,6 +138,7 @@ namespace Demo.Presentation.Controllers
             if (!ModelState.IsValid) return View(_identityRole);
             else
             {
+
                 var result = _roleManager.CreateAsync(_identityRole).Result;
                 if (result.Succeeded)
                     return RedirectToAction(nameof(Index));

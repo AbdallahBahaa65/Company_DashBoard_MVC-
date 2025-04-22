@@ -8,7 +8,6 @@ namespace Demo.Presentation.Controllers
     {
         public IActionResult Index(string? UserSearchName)
         {
-
             var users = _userManager.Users.AsQueryable(); 
 
             if (!string.IsNullOrEmpty(UserSearchName))
@@ -24,6 +23,9 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Details(string Id)
         {
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             var UserDetails = _userManager.FindByIdAsync(Id).Result;
             return View(UserDetails);
         }
@@ -34,7 +36,10 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Update(string Id)
         {
-            
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             var UserUpadte = _userManager.FindByIdAsync(Id).Result;
             if (UserUpadte is not null)
                 return View(UserUpadte);
@@ -46,11 +51,15 @@ namespace Demo.Presentation.Controllers
         [HttpPost]
         public IActionResult Update(string Id,ApplicationUser applicationUser)
         {
-                
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             if (!ModelState.IsValid) return View(applicationUser);
             
             var user =  _userManager.FindByIdAsync(Id).Result;
-            if (user == null)
+           
+            if (user is  null)
                 return NotFound();
 
 
@@ -72,6 +81,10 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Delete(string Id)
         {
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
+
             var UserDelete = _userManager.FindByIdAsync(Id).Result;
             return View(UserDelete);
         }
@@ -79,6 +92,9 @@ namespace Demo.Presentation.Controllers
         [HttpPost]
         public IActionResult Delete(string Id , ApplicationUser applicationUser)
         {
+
+            if (string.IsNullOrWhiteSpace(Id))
+                return BadRequest();
 
             if (!ModelState.IsValid) return View(applicationUser);
 
